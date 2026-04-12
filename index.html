@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvitationCraft — Generator Undangan Premium</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--bg0:#0a0a0a;--bg1:#111;--bg2:#181818;--bg3:#1e1e1e;--bd:#262626;--bdh:#333;--t1:#ede6da;--t2:#a89e90;--t3:#665e52;--acc:#C9A96E;--acch:#d9bb82;--accbg:rgba(201,169,110,.07);--danger:#c05050;--success:#4a9a5a}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow:hidden}
+body{font-family:'Outfit',sans-serif;background:var(--bg0);color:var(--t1)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.app{display:flex;flex-direction:column;height:100vh}
+.app-header{height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--bd);background:var(--bg1);z-index:50}
+.app-body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:350px;flex-shrink:0;background:var(--bg1);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.sidebar-tabs{display:flex;border-bottom:1px solid var(--bd);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.sidebar-tabs::-webkit-scrollbar{display:none}
+.sidebar-tabs button{flex:0 0 auto;padding:11px 12px;font-size:.65rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all .25s}
+.sidebar-tabs button:hover{color:var(--t2)}.sidebar-tabs button.active{color:var(--acc);border-bottom-color:var(--acc)}
+.sidebar-content{flex:1;overflow-y:auto;padding:18px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.preview-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg0)}
+.preview-bar{height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid var(--bd);background:var(--bg1)}
+.preview-wrap{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px;background:repeating-conic-gradient(var(--bg2) 0% 25%,var(--bg1) 0% 50%) 0 0/18px 18px}
+.preview-wrap.mob{padding:0;align-items:stretch}
+#pvFrame{width:100%;height:100%;border:none;border-radius:6px;background:#fff;transition:all .4s}
+.mob #pvFrame{max-width:390px;margin:0 auto;border-radius:0;box-shadow:0 0 50px rgba(0,0,0,.6)}
+.fl{display:block;font-size:.68rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.fi{width:100%;padding:9px 13px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);color:var(--t1);font-family:'Outfit',sans-serif;font-size:.84rem;outline:none;transition:all .25s}
+.fi:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--accbg)}.fi::placeholder{color:var(--t3)}
+textarea.fi{resize:vertical;min-height:64px}
+select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23665e52' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select.fi option{background:var(--bg3);color:var(--t1)}
+.fg{margin-bottom:14px}.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sl{font-size:.78rem;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:7px}.sl i{color:var(--acc);font-size:.65rem}
+.li{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:13px;margin-bottom:9px;transition:border-color .2s}.li:hover{border-color:var(--bdh)}
+.li-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.li-n{font-size:.68rem;font-weight:600;color:var(--acc);letter-spacing:1px}
+.br{width:22px;height:22px;border-radius:6px;border:1px solid var(--bd);background:transparent;color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:all .2s}
+.br:hover{border-color:var(--danger);color:var(--danger);background:rgba(192,80,80,.08)}
+.ba{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px;border-radius:8px;border:1px dashed var(--bd);background:transparent;color:var(--t2);font-size:.76rem;font-weight:500;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif}
+.ba:hover{border-color:var(--acc);color:var(--acc);background:var(--accbg)}
+.tp{display:flex;align-items:center;gap:7px;padding:5px 14px;border-radius:50px;border:1.5px solid var(--bd);background:transparent;color:var(--t2);font-size:.7rem;font-weight:500;letter-spacing:1px;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif;white-space:nowrap}
+.tp:hover{border-color:var(--bdh);color:var(--t1)}.tp.active{border-color:var(--acc);color:var(--acc);background:var(--accbg)}
+.td{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.be{display:flex;align-items:center;gap:7px;padding:7px 18px;border-radius:8px;border:none;background:var(--acc);color:#1a1410;font-size:.76rem;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif}
+.be:hover{background:var(--acch);transform:translateY(-1px)}
+.bg{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--t2);font-size:.7rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+.bg:hover{border-color:var(--bdh);color:var(--t1)}
+.bi{width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.bi:hover{border-color:var(--acc);color:var(--acc)}.bi.active{border-color:var(--acc);color:var(--acc);background:var(--accbg)}
+.cw{position:relative;width:34px;height:34px;border-radius:8px;overflow:hidden;border:2px solid var(--bd);cursor:pointer;flex-shrink:0}
+.cw input[type=color]{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);cursor:pointer;border:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);padding:11px 22px;border-radius:10px;background:var(--bg3);color:var(--t1);font-size:.82rem;border:1px solid var(--bd);z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;display:flex;align-items:center;gap:7px}
+.toast.show{transform:translateX(-50%) translateY(0)}.toast i{color:var(--acc)}
+.logo{display:flex;align-items:center;gap:9px}.logo-d{width:7px;height:7px;background:var(--acc);transform:rotate(45deg)}
+.logo-t{font-size:.9rem;font-weight:700;letter-spacing:2px;color:var(--t1)}.logo-s{font-size:.55rem;font-weight:400;letter-spacing:3px;color:var(--t3);text-transform:uppercase}
+@media(max-width:768px){.app-body{flex-direction:column-reverse}.sidebar{width:100%;flex:1;border-right:none;border-top:1px solid var(--bd)}.preview-area{height:38vh;flex-shrink:0}.tpw{display:none!important}.be span{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="app-header">
+  <div class="logo"><div class="logo-d"></div><div><div class="logo-t">INVITATIONCRAFT</div><div class="logo-s">Premium Generator</div></div></div>
+  <div class="tpw" style="display:flex;gap:7px"><button class="tp active" onclick="setTheme('gold',this)"><span class="td" style="background:#C9A96E"></span>Gold</button><button class="tp" onclick="setTheme('sage',this)"><span class="td" style="background:#6b7d55"></span>Sage</button><button class="tp" onclick="setTheme('terra',this)"><span class="td" style="background:#C07850"></span>Terra</button></div>
+  <div style="display:flex;gap:7px"><button class="bg" onclick="copyHTML()"><i class="far fa-copy"></i><span>Salin</span></button><button class="be" onclick="dlHTML()"><i class="fas fa-download"></i><span>Unduh HTML</span></button></div>
+</header>
+<div class="app-body">
+<aside class="sidebar">
+  <div class="sidebar-tabs" id="sTabs">
+    <button class="active" onclick="swTab('mp',this)"><i class="fas fa-heart" style="margin-right:3px;font-size:.55rem"></i>Mempelai</button>
+    <button onclick="swTab('ev',this)"><i class="fas fa-calendar" style="margin-right:3px;font-size:.55rem"></i>Acara</button>
+    <button onclick="swTab('st',this)"><i class="fas fa-book-open" style="margin-right:3px;font-size:.55rem"></i>Cerita</button>
+    <button onclick="swTab('gl',this)"><i class="fas fa-images" style="margin-right:3px;font-size:.55rem"></i>Galeri</button>
+    <button onclick="swTab('hf',this)"><i class="fas fa-gift" style="margin-right:3px;font-size:.55rem"></i>Hadiah</button>
+    <button onclick="swTab('set',this)"><i class="fas fa-sliders" style="margin-right:3px;font-size:.55rem"></i>Setting</button>
+  </div>
+  <div class="sidebar-content">
+    <!-- Mempelai -->
+    <div class="tab-panel active" id="tab-mp">
+      <div class="sl"><i class="fas fa-mars"></i>Mempelai Pria</div>
+      <div class="fg"><label class="fl">Nama Lengkap</label><input class="fi" value="Muhammad Arif Hidayat" oninput="D.gf=this.value;sd()"></div>
+      <div class="fg"><label class="fl">Nama Panggilan</label><input class="fi" value="Arif" oninput="D.gn=this.value;sd()"></div>
+      <div class="fr"><div class="fg"><label class="fl">Ayah</label><input class="fi" value="Bapak H. Ahmad Hidayat" oninput="D.gd=this.value;sd()"></div><div class="fg"><label class="fl">Ibu</label
