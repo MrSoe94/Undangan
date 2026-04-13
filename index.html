@@ -334,6 +334,7 @@ function buildHTML() {
   var aDate= gv('aDate'),aTime= gv('aTime'),aPlace=gv('aPlace'),aAddr=gv('aAddr');
   var rDate= gv('rDate'),rTime= gv('rTime'),rPlace=gv('rPlace'),rAddr=gv('rAddr');
   var giftAddr = gv('giftAddr');
+  var guestPreview = gv('guestParam') || 'Bapak/Ibu/Saudara/i';
   var musUrl   = gv('musUrl');
   var fHead    = gv('fHead') || 'Playfair Display';
   var fBody    = gv('fBody') || 'Lato';
@@ -723,7 +724,7 @@ function buildHTML() {
   + '<h1 style="font-size:clamp(3rem,8vw,5rem);font-weight:700" class="shm">' + he(wn) + '</h1>'
   + '<div class="sdv" style="margin:24px 0"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<p style="font-size:.7rem;letter-spacing:3px;color:rgba(201,169,110,.4);margin-bottom:28px">' + he(fmtDate(aDate,'')) + '</p>'
-  + '<p style="font-size:.72rem;color:rgba(201,169,110,.35);margin-bottom:28px">Kepada Yth.<br><span id="cg" style="font-size:.9rem;color:rgba(201,169,110,.6)">Bapak/Ibu/Saudara/i</span></p>'
+  + '<p style="font-size:.72rem;color:rgba(201,169,110,.35);margin-bottom:28px">Kepada Yth.<br><span id="cg" style="font-size:.9rem;color:rgba(201,169,110,.6)">' + he(guestPreview) + '</span></p>'
   + '<button class="bopen" onclick="openInv()"><i class="fas fa-envelope-open-text" style="margin-right:6px"></i>Buka Undangan</button>'
   + '</div></div>'
 
