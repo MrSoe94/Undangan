@@ -65,12 +65,18 @@ select.fi option{background:var(--bg3);color:var(--t1)}
 .toast i{color:var(--acc)}
 .crow{display:flex;gap:10px;align-items:center}
 .crow .fl{margin-bottom:0;flex-shrink:0;width:70px}
+.tgls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tgl{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--bd);border-radius:9px;background:var(--bg2);cursor:pointer;transition:.2s}
+.tgl:hover{border-color:var(--bdh)}
+.tgl input{accent-color:var(--acc);cursor:pointer}
+.tgl span{font-size:.75rem;color:var(--t2)}
 @media(max-width:768px){
   .bod{flex-direction:column-reverse}
   .sb{width:100%;flex:1;border-right:none;border-top:1px solid var(--bd)}
   .pa{height:36vh;flex-shrink:0}
   .tpw{display:none!important}
   .be span,.bgo span{display:none}
+  .tgls{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -200,6 +206,19 @@ select.fi option{background:var(--bg3);color:var(--t1)}
         <div class="sl"><i class="fas fa-music"></i>Musik</div>
         <div class="fg"><label class="fl">URL Audio (MP3)</label><input class="fi" id="musUrl" value="https://cdn.pixabay.com/audio/2022/10/25/audio_3935b3f1d2.mp3"></div>
         <div style="height:16px"></div>
+        <div class="sl"><i class="fas fa-eye-slash"></i>Halaman Aktif</div>
+        <div class="tgls fg">
+          <label class="tgl"><input type="checkbox" id="secHero" checked onchange="syncSectionToggle('hero',this.checked)"><span>Pembuka</span></label>
+          <label class="tgl"><input type="checkbox" id="secCouple" checked onchange="syncSectionToggle('couple',this.checked)"><span>Mempelai</span></label>
+          <label class="tgl"><input type="checkbox" id="secEvents" checked onchange="syncSectionToggle('events',this.checked)"><span>Acara</span></label>
+          <label class="tgl"><input type="checkbox" id="secGallery" checked onchange="syncSectionToggle('gallery',this.checked)"><span>Galeri</span></label>
+          <label class="tgl"><input type="checkbox" id="secStory" checked onchange="syncSectionToggle('story',this.checked)"><span>Cerita</span></label>
+          <label class="tgl"><input type="checkbox" id="secRsvp" checked onchange="syncSectionToggle('rsvp',this.checked)"><span>RSVP</span></label>
+          <label class="tgl"><input type="checkbox" id="secWishes" checked onchange="syncSectionToggle('wishes',this.checked)"><span>Ucapan</span></label>
+          <label class="tgl"><input type="checkbox" id="secGifts" checked onchange="syncSectionToggle('gifts',this.checked)"><span>Hadiah</span></label>
+          <label class="tgl"><input type="checkbox" id="secFooter" checked onchange="syncSectionToggle('footer',this.checked)"><span>Penutup</span></label>
+        </div>
+        <div style="height:16px"></div>
         <div class="sl"><i class="fas fa-link"></i>Bagikan</div>
         <div class="fg"><label class="fl">Nama Tamu (preview)</label><input class="fi" id="guestParam" placeholder="Contoh: Bapak Ibu Ahmad" oninput="sd()"></div>
         <p style="font-size:.65rem;color:var(--t3);margin-top:-6px">Tambahkan ?to=Nama+Tamu di URL unduhan</p>
@@ -235,6 +254,17 @@ var TH = {
   terra: { pri:'#C07850', sec:'#D4956F', bg:'#FDF8F5', tx:'#2D2420', dark:'#1f1510', darkm:'#2e211a' }
 };
 var curTheme = 'gold';
+var pageVis = {
+  hero: true,
+  couple: true,
+  events: true,
+  gallery: true,
+  story: true,
+  rsvp: true,
+  wishes: true,
+  gifts: true,
+  footer: true
+};
 
 /* ============================================================
    DATA DEFAULTS
@@ -319,6 +349,15 @@ function buildHTML() {
   var txC  = cTx   || t.tx;
   var dark = t.dark;
   var darkm= t.darkm;
+  var showHero    = pageVis.hero;
+  var showCouple  = pageVis.couple;
+  var showEvents  = pageVis.events;
+  var showGallery = pageVis.gallery;
+  var showStory   = pageVis.story;
+  var showRsvp    = pageVis.rsvp;
+  var showWishes  = pageVis.wishes;
+  var showGifts   = pageVis.gifts;
+  var showFooter  = pageVis.footer;
 
   var cdDate = aDate || rDate || '2025-08-15';
   var cdTime = aTime || '08:00';
@@ -689,7 +728,7 @@ function buildHTML() {
   + '</div></div>'
 
   /* HERO */
-  + '<section class="hero">'
+  + (showHero ? '<section class="hero">'
   + '<div class="corn corn-tl"></div><div class="corn corn-tr"></div><div class="corn corn-bl"></div><div class="corn corn-br"></div>'
   + '<div style="position:relative;z-index:1">'
   + '<p style="font-size:.65rem;letter-spacing:6px;text-transform:uppercase;color:rgba(201,169,110,.5);margin-bottom:16px" class="rv">Bismillahirrahmanirrahim</p>'
@@ -698,20 +737,20 @@ function buildHTML() {
   + '<p style="font-size:.9rem;font-style:italic;color:rgba(255,255,255,.4);max-width:500px;margin:0 auto;line-height:1.7" class="rv">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan dari jenismu sendiri, supaya kamu merasa tenteram kepadanya."</p>'
   + '<p style="font-size:.65rem;color:rgba(201,169,110,.3);margin-top:6px" class="rv">— QS. Ar-Rum: 21 —</p>'
   + '<div class="cd rv"><div class="cdb"><span class="cdn" id="cdd">00</span><span class="cdl">Hari</span></div><div class="cdb"><span class="cdn" id="cdh">00</span><span class="cdl">Jam</span></div><div class="cdb"><span class="cdn" id="cdm">00</span><span class="cdl">Menit</span></div><div class="cdb"><span class="cdn" id="cds">00</span><span class="cdl">Detik</span></div></div>'
-  + '</div></section>'
+  + '</div></section>' : '')
 
   /* MEMPELAI */
-  + '<section class="sec">'
+  + (showCouple ? '<section class="sec">'
   + '<div class="stg rv">Insya Allah</div>'
   + '<h2 class="stit rv" style="text-align:center">Mempelai</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<div class="cpgrid">'
   + '<div class="cpc rv"><div class="cpr"><img src="' + he(gimg) + '" alt="' + he(gn) + '" onerror="this.src=\'https://picsum.photos/seed/groom/400/400\'"></div><p class="cpl">Mempelai Pria</p><h3 class="cpn">' + he(gf) + '</h3><p class="cpp">Putra dari<br><strong>' + he(gd_) + '</strong><br>&amp;<br><strong>' + he(gm_) + '</strong></p></div>'
   + '<div class="cpc rv"><div class="cpr"><img src="' + he(wimg) + '" alt="' + he(wn) + '" onerror="this.src=\'https://picsum.photos/seed/bride/400/400\'"></div><p class="cpl">Mempelai Wanita</p><h3 class="cpn">' + he(wf) + '</h3><p class="cpp">Putri dari<br><strong>' + he(wd_) + '</strong><br>&amp;<br><strong>' + he(wm_) + '</strong></p></div>'
-  + '</div></section>'
+  + '</div></section>' : '')
 
   /* ACARA */
-  + '<section class="sec sec-dk">'
+  + (showEvents ? '<section class="sec sec-dk">'
   + '<div class="stg rv">Simpan Tanggalnya</div>'
   + '<h2 class="stit rv" style="text-align:center;color:var(--bg)">Detail Acara</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
@@ -720,26 +759,26 @@ function buildHTML() {
   + '<div class="evc rv"><div class="evi"><i class="fas fa-champagne-glasses"></i></div><h3 class="evh">Resepsi</h3><p class="evp"><i class="far fa-calendar"></i>' + he(fmtDate(rDate,rTime)) + '</p><p class="evp"><i class="fas fa-map-marker-alt"></i>' + he(rPlace) + '</p><p class="evp evs">' + he(rAddr) + '</p><a href="https://maps.google.com/?q=' + encodeURIComponent(rPlace+', '+rAddr) + '" target="_blank" rel="noopener" class="evmap"><i class="fas fa-directions"></i> Lihat Peta</a></div>'
   + '</div>'
   + '<div style="text-align:center;margin-top:28px" class="rv"><a class="rbtn" style="display:inline-block;text-decoration:none" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + gcTitle + '&dates=' + gcS + '/' + gcE + '&location=' + gcLoc + '" target="_blank" rel="noopener"><i class="far fa-calendar-plus" style="margin-right:6px"></i>Simpan di Kalender</a></div>'
-  + '</section>'
+  + '</section>' : '')
 
   /* GALERI */
-  + '<section class="sec">'
+  + (showGallery ? '<section class="sec">'
   + '<div class="stg rv">Momen Bahagia</div>'
   + '<h2 class="stit rv" style="text-align:center">Galeri Foto</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<div class="ggrid rv">' + galH + '</div>'
-  + '</section>'
+  + '</section>' : '')
 
   /* CERITA */
-  + '<section class="sec" style="background:linear-gradient(180deg,var(--bg),rgba(201,169,110,.03),var(--bg))">'
+  + (showStory ? '<section class="sec" style="background:linear-gradient(180deg,var(--bg),rgba(201,169,110,.03),var(--bg))">'
   + '<div class="stg rv">Perjalanan Cinta</div>'
   + '<h2 class="stit rv" style="text-align:center">Cerita Kami</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<div class="stl" style="margin-top:28px">' + stH + '</div>'
-  + '</section>'
+  + '</section>' : '')
 
   /* RSVP */
-  + '<section class="sec sec-dk">'
+  + (showRsvp ? '<section class="sec sec-dk">'
   + '<div class="stg rv">Konfirmasi Kehadiran</div>'
   + '<h2 class="stit rv" style="text-align:center;color:var(--bg)">RSVP</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
@@ -749,10 +788,10 @@ function buildHTML() {
   + '<div><label class="rfl">Jumlah Tamu</label><select class="rfi" id="rg"><option>1 Orang</option><option>2 Orang</option><option>3 Orang</option></select></div>'
   + '<div><label class="rfl">Pesan</label><textarea class="rfi" rows="2" placeholder="Pesan untuk mempelai" id="rm" style="resize:none"></textarea></div>'
   + '<button type="submit" class="rbtn"><i class="fas fa-paper-plane" style="margin-right:6px"></i>Kirim Konfirmasi</button>'
-  + '</form></section>'
+  + '</form></section>' : '')
 
   /* UCAPAN */
-  + '<section class="sec">'
+  + (showWishes ? '<section class="sec">'
   + '<div class="stg rv">Buku Tamu</div>'
   + '<h2 class="stit rv" style="text-align:center">Ucapan</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
@@ -762,26 +801,26 @@ function buildHTML() {
   + '<button type="submit" class="wbtn"><i class="fas fa-heart" style="margin-right:4px"></i>Kirim Ucapan</button>'
   + '</form>'
   + '<div class="wlist" id="wl"></div>'
-  + '</section>'
+  + '</section>' : '')
 
   /* HADIAH */
-  + '<section class="sec" style="background:linear-gradient(180deg,var(--bg),rgba(201,169,110,.03),var(--bg))">'
+  + (showGifts ? '<section class="sec" style="background:linear-gradient(180deg,var(--bg),rgba(201,169,110,.03),var(--bg))">'
   + '<div class="stg rv">Amplop Digital</div>'
   + '<h2 class="stit rv" style="text-align:center">Hadiah</h2>'
   + '<div class="sdv rv" style="justify-content:center"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<p style="text-align:center;font-size:.82rem;color:rgba(0,0,0,.4);max-width:500px;margin:0 auto 24px" class="rv">Doa restu Anda adalah karunia terindah. Jika ingin memberikan tanda kasih, kami menyediakan amplop digital.</p>'
   + '<div class="gfgrid rv">' + gfH + '</div>'
   + '<div class="gfaddr rv"><i class="fas fa-gift" style="color:var(--p);margin-bottom:8px;font-size:1.2rem;display:block"></i><p>' + he(giftAddr).replace(/\n/g,'<br>') + '</p><button onclick="cpAddr(this)"><i class="far fa-copy" style="margin-right:4px"></i>Salin Alamat</button></div>'
-  + '</section>'
+  + '</section>' : '')
 
   /* FOOTER */
-  + '<section class="foot">'
+  + (showFooter ? '<section class="foot">'
   + '<div class="stg rv" style="color:rgba(201,169,110,.4)">Terima Kasih</div>'
   + '<h2 class="stit rv shm" style="margin-bottom:16px">' + he(gn) + ' &amp; ' + he(wn) + '</h2>'
   + '<p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);max-width:500px;margin:0 auto 24px;line-height:1.7" class="rv">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.</p>'
   + '<div class="sdv rv"><div class="sdvl"></div><div class="sdvd"></div><div class="sdvr"></div></div>'
   + '<p style="font-size:.6rem;color:rgba(255,255,255,.2);margin-top:20px" class="rv">Made with <i class="fas fa-heart" style="color:var(--p);font-size:7px"></i> for our special day</p>'
-  + '</section>'
+  + '</section>' : '')
 
   /* MODAL */
   + '<div id="gmod" onclick="this.classList.remove(\'open\');document.body.style.overflow=\'\'"><img id="gmodi" src="" alt="Foto"></div>'
@@ -874,6 +913,11 @@ function setPV(m) {
   document.getElementById('pvWrap').classList.toggle('mob', m === 'mob');
   document.getElementById('bDesk').classList.toggle('on', m === 'desk');
   document.getElementById('bMob').classList.toggle('on', m === 'mob');
+}
+
+function syncSectionToggle(key, checked) {
+  pageVis[key] = !!checked;
+  sd();
 }
 
 /* ============================================================
